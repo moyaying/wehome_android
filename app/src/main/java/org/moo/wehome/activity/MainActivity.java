@@ -1,41 +1,44 @@
-package org.moo.wehome;
+package org.moo.wehome.activity;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity
+import org.moo.framework.domain.action.ActionScheduler;
+import org.moo.framework.domain.action.DefaultSubscriber;
+import org.moo.wehome.R;
+import org.moo.wehome.common.UIHelper;
+import org.moo.wehome.domain.entity.User;
+import org.moo.wehome.domain.manager.IAccountManager;
+
+import javax.inject.Inject;
+
+public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    @Inject
+    IAccountManager accountManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getActivityComponent().inject(this);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -67,7 +70,46 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_travel) {//发去出行
+            UIHelper.toastMessage(this, "发起出行");
+
+//            repository.getMainPageCache().subscribe(entity -> {
+//                Log.w("MainActivity", "getMainPageCache cache:" + (entity == null ? "null" : entity.getSelectstr()));
+//            });
+
+//            ActionRunner.run(repository.getMainPageData(), new DefaultSubscriber<MainPageEntity>(){
+//                @Override
+//                public void onNext(MainPageEntity mainPageEntity) {
+//                    super.onNext(mainPageEntity);
+//                    Log.w("MainActivity", "onNext ZhiBoMainPageEntity:" + (mainPageEntity == null ? "null" : mainPageEntity.getSelectstr()));
+//                }
+//            });
+//            repository.getMainPageData()
+//                    .compose(ActionScheduler.executeSchedulers())
+//                    .subscribe(entity -> {
+//                        Log.w("MainActivity", "getMainPageCache ZhiBoMainPageEntity:" + (entity == null ? "null" : entity.getSelectstr()));
+//                    });
+
+//            repository.getMainPageCache()
+            accountManager.login("moo", "test")
+                    .compose(ActionScheduler.executeSchedulers())
+                    .subscribe(new DefaultSubscriber<User>() {
+                        @Override
+                        public void onNext(User user) {
+                            super.onNext(user);
+                            Toast.makeText(MainActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            super.onError(e);
+                            Toast.makeText(MainActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+            return true;
+        } else if (id == R.id.action_order) {
+            UIHelper.toastMessage(this, "发起要去");
             return true;
         }
 

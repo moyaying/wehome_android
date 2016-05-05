@@ -1,4 +1,16 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'      //dagger 用到     //http://mvnrepository.com/artifact/com.neenbedankt.gradle.plugins/android-apt
+        classpath 'me.tatarka:gradle-retrolambda:3.2.5' //https://github.com/evant/gradle-retrolambda
+    }
+}
+
 apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt' //dagger 用到
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
     signingConfigs {
@@ -9,29 +21,56 @@ android {
             storePassword StorePassword
         }
     }
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+
+    compileSdkVersion androidCompileSdkVersion
+    buildToolsVersion androidBuildToolsVersion
     defaultConfig {
         applicationId "org.moo.wehome"
-        minSdkVersion 15
-        targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion androidMinSdkVersion
+        targetSdkVersion androidTargetSdkVersion
+        versionCode wehome_version_code
+        versionName wehome_version_name
         signingConfig signingConfigs.wehome
     }
+
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
     productFlavors {
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.3.0'
-    compile 'com.android.support:design:23.3.0'
+
+    compile "com.android.support:appcompat-v7:${appcompat_v7}"
+    compile "com.android.support:support-v4:${support_v4}"
+    compile "com.android.support:design:${design}"
+    compile "com.android.support:recyclerview-v7:${recyclerview_v7}"
+    compile "com.android.support:cardview-v7:${cardview_v7}"
+
+    apt "com.google.dagger:dagger-compiler:${dagger}"
+
+    //轮播广告 https://github.com/bingoogolapple/BGABanner-Android/blob/master/README.md
+    compile 'cn.bingoogolapple:bga-banner:2.0.4@aar'
+    compile 'com.nineoldandroids:library:2.4.0'
+
+    //随机颜色 https://github.com/lzyzsd/AndroidRandomColor
+    compile 'com.github.lzyzsd.randomcolor:library:1.0.0'
+    //flowlayout  https://github.com/ApmeM/android-flowlayout
+//    compile 'org.apmem.tools:layouts:1.10@aar'
+    //floattingActionButton  https://github.com/Clans/FloatingActionButton
+    compile 'com.github.clans:fab:1.6.3'
+
+    compile project(':framework')
 }

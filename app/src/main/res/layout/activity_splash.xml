@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/MatchMatch">
+
+    <cn.bingoogolapple.bgabanner.BGABanner xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/banner_splash_pager"
+        style="@style/MatchMatch"
+        android:visibility="gone"
+        app:banner_pointAutoPlayAble="false"
+        app:banner_pointTopBottomMargin="15dp" />
+
+    <include
+        android:id="@+id/launcher_view"
+        layout="@layout/view_launcher" />
+
+</FrameLayout>

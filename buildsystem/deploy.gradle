@@ -1,0 +1,24 @@
+apply plugin: 'maven'
+
+//task repoUpdate(type: Exec) {
+//    commandLine "svn", "update", "${repoPath}/"
+//}
+
+uploadArchives {
+//    dependsOn 'repoUpdate'
+    repositories.mavenDeployer {
+        def deployPath = file(AIPAI_REP)
+        repository(url: "file://${deployPath.absolutePath}")
+    }
+}
+
+task repoAdd(type: Exec, dependsOn: uploadArchives) {
+//    commandLine "svn", "add", "--force", "${repoPath}"
+    commandLine "echo", "task repoAdd"
+}
+
+
+task deploy(type: Exec, dependsOn: repoAdd) {
+//    commandLine "svn", "ci", "-m", "commit ${project.name}", "${repoPath}"
+    commandLine "echo", "deploy ${project.name}"
+}

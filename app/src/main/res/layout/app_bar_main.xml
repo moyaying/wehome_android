@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    style="@style/MatchMatch"
     android:fitsSystemWindows="true"
-    tools:context="org.moo.wehome.MainActivity">
+    tools:context=".activity.MainActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -17,18 +17,59 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_main" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_dialog_email" />
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:id="@+id/fab"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="bottom|end"-->
+        <!--android:layout_margin="@dimen/fab_margin"-->
+        <!--android:src="@android:drawable/ic_dialog_email" />-->
+
+    <!--<com.github.clans.fab.FloatingActionMenu-->
+        <!--android:id="@+id/fam"-->
+        <!--style="@style/WrapWrap"-->
+        <!--android:layout_gravity="bottom"-->
+        <!--android:layout_marginBottom="6dp"-->
+        <!--fab:menu_labels_style="@style/MenuLabelsStyle"-->
+        <!--fab:menu_labels_showAnimation="@anim/jump_from_down"-->
+        <!--fab:menu_labels_hideAnimation="@anim/jump_to_down"-->
+        <!--fab:menu_animationDelayPerItem="50"-->
+        <!--fab:menu_shadowColor="#444"-->
+        <!--fab:menu_colorNormal="#FFB805"-->
+        <!--fab:menu_colorPressed="#F2AB00"-->
+        <!--fab:menu_colorRipple="#D99200">-->
+
+        <!--<com.github.clans.fab.FloatingActionButton-->
+            <!--android:id="@+id/fab12"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:src="@mipmap/ic_edit"-->
+            <!--fab:fab_label="Menu item 1"-->
+            <!--style="@style/MenuButtonsStyle" />-->
+
+        <!--<com.github.clans.fab.FloatingActionButton-->
+            <!--android:id="@+id/fab22"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:src="@mipmap/ic_edit"-->
+            <!--fab:fab_label="Menu item 2"-->
+            <!--style="@style/MenuButtonsStyle" />-->
+
+        <!--<com.github.clans.fab.FloatingActionButton-->
+            <!--android:id="@+id/fab32"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:src="@mipmap/ic_edit"-->
+            <!--fab:fab_label="@string/lorem_ipsum"-->
+            <!--style="@style/MenuButtonsStyle" />-->
+
+    <!--</com.github.clans.fab.FloatingActionMenu>-->
 
 </android.support.design.widget.CoordinatorLayout>

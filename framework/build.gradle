@@ -1,14 +1,26 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'      //dagger 用到  http://mvnrepository.com/artifact/com.neenbedankt.gradle.plugins/android-apt
+        classpath 'me.tatarka:gradle-retrolambda:3.2.5' //https://github.com/evant/gradle-retrolambda
+    }
+}
+
 apply plugin: 'com.android.library'
+apply plugin: 'com.neenbedankt.android-apt' //dagger 用到
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion androidCompileSdkVersion
+    buildToolsVersion androidBuildToolsVersion
 
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion androidMinSdkVersion
+        targetSdkVersion androidTargetSdkVersion
+        versionCode framework_version_code
+        versionName framework_version_name
     }
     buildTypes {
         release {
@@ -16,10 +28,29 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.3.0'
+//    compile "com.android.support:appcompat-v7:${appcompat_v7}"
+    compile "com.google.dagger:dagger:${dagger}"
+    apt "com.google.dagger:dagger-compiler:${dagger}"
+    provided "org.glassfish:javax.annotation:${javaxAnnotation}"
+
+    compile "com.squareup.retrofit2:retrofit:${retrofit}"
+    compile "com.squareup.retrofit2:converter-gson:${retrofit}"
+    compile "com.squareup.retrofit2:adapter-rxjava:${retrofit}"
+    compile "io.reactivex:rxandroid:${rxAndroid}"
+    compile "com.f2prateek.rx.preferences:rx-preferences:${rx_preferences}"
 }
+
+//用于deploy的时候，依赖关系可以正确传递
+version = project.framework_version_name
+
+apply from: '../buildsystem/deploy.gradle'
